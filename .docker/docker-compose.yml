@@ -1,0 +1,16 @@
+version: '3.3'
+
+services:
+    pytorch_service:
+        image: yolov5_image
+        container_name: yolov5
+        build: 
+          context: ..
+          dockerfile: .docker/Dockerfile
+        volumes:
+            - ..:/root/yolov5
+        tty: true
+        # ports: 
+        #   - "3000:3000"
+        stdin_open: true
+        command: ["bash"]

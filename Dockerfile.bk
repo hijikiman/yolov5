@@ -7,12 +7,12 @@ RUN pip install --upgrade pip
 # RUN pip install -r requirements.txt
 RUN pip install gsutil
 
-# Create working directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+# # Create working directory
+# RUN mkdir -p /usr/src/app
+# WORKDIR /usr/src/app
 
-# Copy contents
-COPY . /usr/src/app
+# # Copy contents
+# COPY . /usr/src/app
 
 # Copy weights
 #RUN python3 -c "from models import *; \
@@ -20,7 +20,16 @@ COPY . /usr/src/app
 #attempt_download('weights/yolov5m.pt'); \
 #attempt_download('weights/yolov5l.pt')"
 
+RUN pip install -r requirements.txt
 
+# my additional item
+RUN apt -y install tree
+RUN apt -y install vim
+
+# for bash prompt
+COPY .prompt/.bashrc .prompt/.git-prompt.sh /root/
+
+WORKDIR /root/yolov5
 # ---------------------------------------------------  Extras Below  ---------------------------------------------------
 
 # Build and Push
