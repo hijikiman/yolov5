@@ -23,13 +23,13 @@ RUN pip install gsutil
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-# fix
-RUN apt -y install libgl1-mesa-dev
 
 # my additional item
 RUN apt update
 RUN apt -y install tree
 RUN apt -y install vim
+# fix error ImportError: libGL.so.1: cannot open shared object file: No such file or directory
+RUN apt -y install libgl1-mesa-dev
 
 # for bash prompt
 COPY .prompt/.bashrc .prompt/.git-prompt.sh /root/
