@@ -9,6 +9,9 @@ services:
           dockerfile: .docker/Dockerfile
         volumes:
             - ..:/root/yolov5
+        runtime: nvidia
+        environment:
+            - NVIDIA_VISIBLE_DEVICES=3
         tty: true
         # ports: 
         #   - "3000:3000"

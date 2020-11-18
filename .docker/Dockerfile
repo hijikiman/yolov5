@@ -31,6 +31,9 @@ RUN apt -y install vim
 # fix error ImportError: libGL.so.1: cannot open shared object file: No such file or directory
 RUN apt -y install libgl1-mesa-dev
 
+# fix error AssertionError: CUDA unavailable, invalid device 0 requested
+RUN pip install torch==1.6.0+cu101 torchvision==0.7.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html
+
 # for bash prompt
 COPY .prompt/.bashrc .prompt/.git-prompt.sh /root/
 
