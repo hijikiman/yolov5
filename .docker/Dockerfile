@@ -34,6 +34,17 @@ RUN apt -y install libgl1-mesa-dev
 # fix error AssertionError: CUDA unavailable, invalid device 0 requested
 RUN pip install torch==1.6.0+cu101 torchvision==0.7.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html
 
+## for tensorboard
+# fix ImportError: cannot import name ‘dlprof_pb2'
+RUN pip uninstall -y tensorboard-plugin-dlprof
+# fix ValueError: Not a TBLoader or TBPlugin subclass: <class 'tensorboard_plugin_wit.wit_plugin_loader.WhatIfToolPluginLoader'>
+RUN pip uninstall -y tensorboard-plugin-wit
+# fix pkg_resources.DistributionNotFound: The 'tensorboard-plugin-wit>=1.6.0' distribution was not found and is required by the application
+RUN pip install tensorboard==1.15.0
+# fix FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+RUN pip install numpy==1.19.4
+
+
 # for bash prompt
 COPY .prompt/.bashrc .prompt/.git-prompt.sh /root/
 
