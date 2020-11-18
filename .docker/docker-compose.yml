@@ -13,7 +13,7 @@ services:
         environment:
             - NVIDIA_VISIBLE_DEVICES=3
         tty: true
-        # ports: 
-        #   - "3000:3000"
+        ports: 
+          - "6886:6886"
         stdin_open: true
         command: ["bash"]

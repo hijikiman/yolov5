@@ -39,6 +39,7 @@ COPY .prompt/.bashrc .prompt/.git-prompt.sh /root/
 
 WORKDIR /root/yolov5
 
+EXPOSE 6886
 # ---------------------------------------------------  Extras Below  ---------------------------------------------------
 
 # Build and Push
