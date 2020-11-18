@@ -12,6 +12,7 @@ services:
         runtime: nvidia
         environment:
             - NVIDIA_VISIBLE_DEVICES=3
+        shm_size: '16gb'
         tty: true
         ports: 
           - "6886:6886"
