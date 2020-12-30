@@ -18,14 +18,27 @@ from utils.general import (
 from utils.torch_utils import select_device, load_classifier, time_synchronized
 
 
-def detect(save_img=False):
-    out, source, weights, view_img, save_txt, imgsz = \
-        opt.output, opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size
+def detect(save_img=False,
+           agnostic_nms=False,
+           augment=False,
+           classes=None,
+           conf_thres=0.4,
+           device='',
+           img_size=640,
+           iou_thres=0.5,
+           output='inference/output',
+           save_txt=False,
+           source='inference/images',
+           update=False,
+           view_img=False,
+           weights='yolov5s.pt'
+           ):
+    out, imgsz = output, img_size
     webcam = source.isnumeric() or source.startswith(('rtsp://', 'rtmp://', 'http://')) or source.endswith('.txt')
 
     # Initialize
     set_logging()
-    device = select_device(opt.device)
+    device = select_device(device)
     if os.path.exists(out):
         shutil.rmtree(out)  # delete output folder
     os.makedirs(out)  # make new output folder
@@ -71,10 +84,10 @@ def detect(save_img=False):
 
         # Inference
         t1 = time_synchronized()
-        pred = model(img, augment=opt.augment)[0]
+        pred = model(img, augment=augment)[0]
 
         # Apply NMS
-        pred = non_max_suppression(pred, opt.conf_thres, opt.iou_thres, classes=opt.classes, agnostic=opt.agnostic_nms)
+        pred = non_max_suppression(pred, conf_thres, iou_thres, classes=classes, agnostic=agnostic_nms)
         t2 = time_synchronized()
 
         # Apply Classifier
@@ -165,7 +178,7 @@ if __name__ == '__main__':
     with torch.no_grad():
         if opt.update:  # update all models (to fix SourceChangeWarning)
             for opt.weights in ['yolov5s.pt', 'yolov5m.pt', 'yolov5l.pt', 'yolov5x.pt']:
-                detect()
+                detect(**vars(opt))
                 strip_optimizer(opt.weights)
         else:
-            detect()
+            detect(**vars(opt))
